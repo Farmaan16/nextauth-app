@@ -7,7 +7,7 @@ connectDB();
 export async function GET(request: NextRequest) {
     try {
       
-        const response = NextResponse.json({ message: "User logged out successfully" }, { status: 200 });
+        const response = NextResponse.json({ message: "User logged out successfully", success: true }, { status: 200 });
 
         response.cookies.set("token", "", {
             httpOnly: true,
