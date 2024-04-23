@@ -23,7 +23,7 @@ export default function SignupPage() {
     username: "",
   });
 
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const onSignup = async () => {
@@ -35,6 +35,8 @@ export default function SignupPage() {
     } catch (error: any) {
       console.log("Signup failed");
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,7 +64,7 @@ export default function SignupPage() {
       </div>
 
       <div className=" max-w-sm w-full mx-auto rounded-2xl mt-8 md:rounded-2xl p-8 md:p-8 shadow-input bg-white dark:bg-black border border-neutral-200 dark:border-neutral-700">
-        <h2 className="text-2xl font-bold mb-4 text-center">Create Account</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Create New Account</h2>
 
         <form className="my-8" onSubmit={onSignup}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
@@ -101,9 +103,14 @@ export default function SignupPage() {
           <button
             className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] "
             type="submit"
+            disabled={buttonDisabled || loading}
             onClick={onSignup}
           >
-            {buttonDisabled ? "Please fill the form" : "Sign up →"}
+            {loading
+              ? "Signing up..."
+              : buttonDisabled
+              ? "Please fill the form"
+              : "Sign up →"}
             <BottomGradient />
           </button>
 
