@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/utils/cn";
+import Spinner from "@/components/Spinner";
 
 import Link from "next/link";
 
@@ -20,31 +21,45 @@ export default function LoginPage() {
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onLogin = async () => {
     try {
       setLoading(true);
       const response = await axios.post("/api/users/login", user);
-      console.log("Signup successful", response.data);
+      console.log("login successful", response.data);
       router.push("/profile");
     } catch (error: any) {
-      console.log("Login failed");
-      toast.error(error.message);
+      if (
+        error.response.status === 400 &&
+        error.response.data.error === "Invalid password"
+      ) {
+        setLoginError(true);
+      } else if (error.response.data.error === "User does not exist") {
+        setErrorMessage("User does not exist!");
+      } else {
+        console.log("Login failed");
+        toast.error(error.message);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (
-      user.email.length > 0 &&
-      user.password.length > 0 
-    ) {
+    if (user.email.length > 0 && user.password.length > 0) {
       setButtonDisabled(false);
     } else {
       setButtonDisabled(true);
     }
   }, [user]);
+
+   useEffect(() => {
+     setLoginError(false);
+     setErrorMessage("");
+   }, [user.email, user.password]);
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
@@ -56,12 +71,16 @@ export default function LoginPage() {
           Your streamlined solution for seamless authentication integration.
         </p>
       </div>
+      {errorMessage && (
+        <div className="text-red-500 font-bold text-center">{errorMessage}</div>
+      )}
 
       <div className=" max-w-sm w-full mx-auto rounded-2xl mt-8 md:rounded-2xl p-8 md:p-8 shadow-input bg-white dark:bg-black border border-neutral-200 dark:border-neutral-700">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login To Your Account</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Login To Your Account
+        </h2>
 
         <form className="my-8" onSubmit={onLogin}>
-          
           <LabelInputContainer className="mb-4">
             <Label htmlFor="email">Email Address</Label>
             <Input
@@ -84,22 +103,33 @@ export default function LoginPage() {
           </LabelInputContainer>
 
           <button
-            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] "
+            className={`bg-gradient-to-br relative group/btn ${
+              loginError
+                ? "from-red-700 dark:from-red-700 to-red-800"
+                : "from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 dark:bg-zinc-800"
+            }
+    block  w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] `}
             type="submit"
             disabled={buttonDisabled || loading}
             onClick={onLogin}
           >
-            {loading
-              ? "Logging in..."
-              : buttonDisabled
-              ? "Please fill the form"
-              : " Login →"}
-            <BottomGradient />
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                {loginError
+                  ? "Invalid password"
+                  : buttonDisabled
+                  ? "Please fill the form"
+                  : " Login →"}
+                <BottomGradient />
+              </>
+            )}
           </button>
 
           <div className="text-center mt-4">
             <span className="text-xs text-zinc-600 dark:text-zinc-400">
-              No account?
+              Dont have an account?
             </span>{" "}
             <Link
               href="/signup"
