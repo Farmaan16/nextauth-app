@@ -7,12 +7,8 @@ import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/utils/cn";
-import {
-  IconBrandGithub,
-  IconBrandGoogle,
-  IconBrandOnlyfans,
-} from "@tabler/icons-react";
 import Link from "next/link";
+import Spinner from "@/components/Spinner";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -25,6 +21,7 @@ export default function SignupPage() {
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+   const [signupError, setSignupError] = useState(false);
 
   const onSignup = async () => {
     try {
@@ -64,7 +61,9 @@ export default function SignupPage() {
       </div>
 
       <div className=" max-w-sm w-full mx-auto rounded-2xl mt-8 md:rounded-2xl p-8 md:p-8 shadow-input bg-white dark:bg-black border border-neutral-200 dark:border-neutral-700">
-        <h2 className="text-2xl font-bold mb-4 text-center">Create New Account</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Create New Account
+        </h2>
 
         <form className="my-8" onSubmit={onSignup}>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
@@ -101,17 +100,28 @@ export default function SignupPage() {
           </LabelInputContainer>
 
           <button
-            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] "
+            className={`bg-gradient-to-br relative group/btn ${
+              signupError
+                ? "from-red-700 dark:from-red-700 to-red-800"
+                : "from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 dark:bg-zinc-800"
+            }
+    block  w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] `}
             type="submit"
             disabled={buttonDisabled || loading}
             onClick={onSignup}
           >
-            {loading
-              ? "Signing up..."
-              : buttonDisabled
-              ? "Please fill the form"
-              : "Sign up →"}
-            <BottomGradient />
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                {signupError
+                  ? "Invalid password"
+                  : buttonDisabled
+                  ? "Please fill the form"
+                  : " Login →"}
+                <BottomGradient />
+              </>
+            )}
           </button>
 
           <div className="text-center mt-4">

@@ -13,8 +13,8 @@ export default function Profilepage() {
     const getUserDetails = async () => { 
         try {
             const response = await axios.post("/api/users/me")
-            console.log(response.data.data._id)
-            setData(response.data.data._id)
+            console.log(response.data.data.username)
+            setData(response.data.data.username)
 
         } catch (error: any) {
             console.log(error.message)
