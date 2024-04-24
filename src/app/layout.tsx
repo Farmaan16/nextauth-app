@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "NextAuth-App",
   description: "A Next.js app for Authentication of users",
+  icons: {
+    icon: "/favicon.png" ,
+  },
 };
 
 export default function RootLayout({
