@@ -21,7 +21,7 @@ export default function SignupPage() {
 
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-   const [signupError, setSignupError] = useState(false);
+  const [signupError, setSignupError] = useState(false);
 
   const onSignup = async () => {
     try {
@@ -51,14 +51,14 @@ export default function SignupPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
-      <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+      {/* <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-2xl text-neutral-800 dark:text-neutral-200 text-center">
           Welcome to NextAuth-App
         </h2>
         <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300 text-center">
           Your streamlined solution for seamless authentication integration.
         </p>
-      </div>
+      </div> */}
 
       <div className=" max-w-sm w-full mx-auto rounded-2xl mt-8 md:rounded-2xl p-8 md:p-8 shadow-input bg-white dark:bg-black border border-neutral-200 dark:border-neutral-700">
         <h2 className="text-2xl font-bold mb-4 text-center">
@@ -136,6 +136,14 @@ export default function SignupPage() {
             </Link>
           </div>
         </form>
+      </div>
+      <div className="text-center mt-4">
+        <Link
+          href="/"
+          className="bg-black dark:bg-inherit rounded-full w-fit text-white dark:text-neutral-300 px-5 py-1 font-bold border border-neutral-600 hover:bg-zinc-900 "
+        >
+          Home
+        </Link>
       </div>
     </div>
   );

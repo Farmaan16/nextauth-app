@@ -8,14 +8,15 @@ import { useRouter } from "next/navigation";
 
 export default function Profilepage() {
     const router = useRouter()
-    const [data, setData] = useState("")
+  const [userData, setUserData] = useState<{ _id: string } | null>(null);
+  const [showButton, setShowButton] = useState(true);
 
     const getUserDetails = async () => { 
         try {
-            const response = await axios.post("/api/users/me")
-            console.log(response.data.data.username)
-            setData(response.data.data.username)
-
+          const response = await axios.post("/api/users/me");
+          console.log(response.data.data);
+          setUserData(response.data.data);
+          setShowButton(false); // Hide the button after fetching user details
         } catch (error: any) {
             console.log(error.message)
             toast.error(error.message)
@@ -35,30 +36,48 @@ export default function Profilepage() {
     }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1>Profile</h1>
-      <hr />
-      <p>Profile page</p>
-      <h2 className="p-1 rounded bg-green-500">
-        {data === "nothing" ? (
-          "Nothing"
+    <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
+      <h1 className="text-2xl font-bold font text-blue-300 mb-6 ">
+        Successfully logged in
+      </h1>
+      <div className="flex flex-col items-center justify-center  p-8 border border-neutral-600 rounded-2xl ">
+        <hr />
+
+        {userData ? (
+          <>
+            <hr />
+            <h2 className="p-1 rounded ">
+              <strong>User Details</strong>
+            </h2>
+            <ul>
+              {Object.entries(userData).map(([key, value]) => (
+                <li key={key}>
+                  <strong>{key}:</strong> {value}
+                </li>
+              ))}
+            </ul>
+            <hr />
+          </>
         ) : (
-          <Link href={`/profile/${data}`}>{data}</Link>
+          <p className="font-bold text-red-500">No data available!</p>
         )}
-      </h2>
-      <hr />
-      <button
-        onClick={onLogout}
-        className="bg-blue-500 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Logout
-      </button>
+        <hr />
+
+        {showButton && (
+          <button
+            onClick={getUserDetails}
+            className=" mt-4 bg-black dark:bg-inherit rounded-full w-fit text-white dark:text-neutral-300 px-4 py-1 font-bold border border-neutral-600 hover:bg-green-900"
+          >
+            Get User Details
+          </button>
+        )}
+      </div>
 
       <button
-        onClick={getUserDetails}
-        className="bg-green-800 mt-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={onLogout}
+        className="  mt-6 bg-black dark:bg-inherit rounded-full w-fit text-white dark:text-neutral-300 px-4 py-2 font-bold border border-neutral-600 hover:bg-red-900"
       >
-        GetUser Details
+        Logout
       </button>
     </div>
   );

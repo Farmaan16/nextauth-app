@@ -21,7 +21,7 @@ export function HomePage() {
         <div className="text-3xl md:text-6xl font-bold text-stone-800 dark:text-neutral-400  text-center">
           Welcome to NextAuth-App
         </div>
-        <div className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4">
+        <div className="font-extralight text-base text-center md:text-4xl dark:text-neutral-200 py-4">
           Your streamlined solution for seamless authentication integration.
         </div>
 

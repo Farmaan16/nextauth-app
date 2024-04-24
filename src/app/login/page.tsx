@@ -63,14 +63,14 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 ">
-      <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+      {/* <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
         <h2 className="font-bold text-2xl text-neutral-800 dark:text-neutral-200 text-center">
           Welcome to NextAuth-App
         </h2>
         <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300 text-center">
           Your streamlined solution for seamless authentication integration.
         </p>
-      </div>
+      </div> */}
       {errorMessage && (
         <div className="text-red-500 font-bold text-center">{errorMessage}</div>
       )}
@@ -139,6 +139,14 @@ export default function LoginPage() {
             </Link>
           </div>
         </form>
+      </div>
+      <div className="text-center mt-4">
+        <Link
+          href="/"
+          className="bg-black dark:bg-inherit rounded-full w-fit text-white dark:text-neutral-300 px-5 py-1 font-bold border border-neutral-600 hover:bg-zinc-900 "
+        >
+          Home
+        </Link>
       </div>
     </div>
   );
