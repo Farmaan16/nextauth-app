@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "NextAuth-App",
   description: "A Next.js app for Authentication of users",
   icons: {
-    icon: "/favicon.png" ,
+    icon: "/favicon.png",
   },
 };
 
