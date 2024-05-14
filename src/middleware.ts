@@ -4,6 +4,8 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
+
+  //only allow public paths
   const isPublicPath =
     path === "/login" || path === "/signup" || path === "/verifyemail" || path === "/";
 
