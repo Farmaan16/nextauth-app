@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
 
   //only allow public paths
   const isPublicPath =
-    path === "/login" || path === "/signup" || path === "/verifyemail" || path === "/";
+    path === "/login" || path === "/signup" || path === "/verifyemail" ;
 
   const token = request.cookies.get("token")?.value || "";
 
